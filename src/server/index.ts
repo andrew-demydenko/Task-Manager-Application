@@ -1,31 +1,17 @@
 import { Model, Server, Factory, belongsTo } from "miragejs";
 import type { ModelDefinition, Registry } from "miragejs/-types";
+import type { IProject, IUser, ITask } from "@/types";
 
-interface User {
-  name: string;
-}
-
-interface Project {
-  name: string;
-  dueDate: string;
-}
-
-interface Task {
-  title: string;
-  description: string;
-  status: "pending" | "in-progress" | "completed";
-  priority: "low" | "medium" | "high";
-  dueDate: string;
-}
-
-const UserModel: ModelDefinition<User> = Model.extend({});
-const ProjectModel: ModelDefinition<Project> = Model.extend({});
-const TaskModel: ModelDefinition<Task> = Model.extend({
+const UserModel: ModelDefinition<IUser> = Model.extend({});
+const ProjectModel: ModelDefinition<IProject> = Model.extend({});
+const TaskModel: ModelDefinition<ITask> = Model.extend({
   project: belongsTo("project"),
 });
 
 type AppModels = {
   user: typeof UserModel;
+  project: typeof ProjectModel;
+  task: typeof TaskModel;
 };
 
 type AppRegistry = Registry<AppModels, Record<string, typeof Factory>>;
@@ -41,7 +27,7 @@ export function makeServer(): Server<AppRegistry> {
 
     seeds(server) {
       server.db.loadData({
-        users: [{ name: "admin" }],
+        users: [{ name: "admin", id: "1" }],
       });
     },
 
@@ -49,7 +35,71 @@ export function makeServer(): Server<AppRegistry> {
       this.namespace = "api";
 
       this.get("/users", (schema) => {
+        console.log("Fetching all users");
         return schema.all("users");
+      });
+
+      this.get("/users/:name", (schema, request) => {
+        return schema.where("users", {
+          name: request.params.name,
+        } as Partial<IUser>);
+      });
+
+      this.get("/projects", (schema) => {
+        return schema.all("projects");
+      });
+
+      this.get("/projects/:id", (schema, request) => {
+        const project = schema.find("projects", request.params.id);
+
+        if (project) {
+          return project;
+        } else {
+          return { error: "Project not found" };
+        }
+      });
+
+      this.delete("/projects/:id", (schema, request) => {
+        const projectId = request.params.id;
+        const project = schema.find("projects", projectId);
+        if (project) {
+          project.destroy();
+          return { success: true };
+        } else {
+          return { error: "Project not found" };
+        }
+      });
+
+      this.post("/projects", (schema, request) => {
+        console.log(request.requestBody);
+        const attrs = JSON.parse(request.requestBody);
+        return schema.create("projects", attrs);
+      });
+
+      this.post("/task", (schema, request) => {
+        const attrs = JSON.parse(request.requestBody);
+        return schema.create("task", attrs);
+      });
+
+      this.put("/task", (schema, request) => {
+        const task = schema.find("task", JSON.parse(request.requestBody).id);
+        if (task) {
+          task?.update(JSON.parse(request.requestBody));
+          return task;
+        } else {
+          return { error: "Task not found" };
+        }
+      });
+
+      this.delete("/task/:id", (schema, request) => {
+        const taskId = request.params.id;
+        const task = schema.find("task", taskId);
+        if (task) {
+          task.destroy();
+          return { success: true };
+        } else {
+          return { error: "Task not found" };
+        }
       });
     },
   });
