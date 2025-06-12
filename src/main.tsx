@@ -1,10 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
+import { Provider } from "react-redux";
+import { store } from "./store";
 import ProjectsPage from "@/pages/ProjectsPage.tsx";
 import ProjectDetailsPage from "@/pages/ProjectDetailsPage.tsx";
 import HomePage from "@/pages/HomePage";
 import "@/assets/styles/global.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 import { makeServer } from "./server";
 
@@ -12,15 +15,20 @@ makeServer();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<HomePage />} />
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<HomePage />} />
 
-        <Route path="projects">
-          <Route index element={<ProjectsPage />} />
-          <Route path="/projects/:projectId" element={<ProjectDetailsPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          <Route path="projects">
+            <Route index element={<ProjectsPage />} />
+            <Route
+              path="/projects/:projectId"
+              element={<ProjectDetailsPage />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   </StrictMode>
 );

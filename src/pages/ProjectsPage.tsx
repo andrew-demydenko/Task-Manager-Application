@@ -1,27 +1,24 @@
-import { getProjects } from "@/services/projectService";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ProjectsList from "@/components/projects/ProjectsList";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { fetchProjects } from "@/store/thunks/projectThunks";
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState([]);
+  const dispatch = useAppDispatch();
+  const { projects, loading } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const projects = await getProjects();
-        setProjects(projects);
-        console.log("Projects fetched:", projects);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
-    fetchProjects();
-  }, []);
+    dispatch(fetchProjects());
+  }, [dispatch]);
 
   return (
     <div>
       <h1 className="text-5xl">Projects</h1>
-      <ProjectsList projects={projects} />
+      {loading ? (
+        <div>Loading projects...</div>
+      ) : (
+        <ProjectsList projects={projects} />
+      )}
     </div>
   );
 }
