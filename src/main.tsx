@@ -6,6 +6,10 @@ import ProjectDetailsPage from "@/pages/ProjectDetailsPage.tsx";
 import HomePage from "@/pages/HomePage";
 import "@/assets/styles/global.css";
 
+import { makeServer } from "./server";
+
+makeServer();
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
