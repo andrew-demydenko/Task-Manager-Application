@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { getUser } from "@/services/userService";
+import { NavLink } from "react-router";
 
 export default function HomePage() {
   useEffect(() => {
@@ -11,5 +12,14 @@ export default function HomePage() {
     fetchUser();
   }, []);
 
-  return <div className="bg-black text-white">Home Page</div>;
+  return (
+    <div>
+      Home Page
+      <div>
+        <NavLink className="text-blue-500 hover:underline" to="/projects">
+          Projects
+        </NavLink>
+      </div>
+    </div>
+  );
 }
