@@ -1,10 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getProjects, getProject } from "@/services/projectService";
+import {
+  getProjects,
+  getProject,
+  createProject,
+  deleteProject,
+} from "@/services/projectService";
 import {
   setLoading,
   setProjectDetails,
   setProjects,
 } from "@/store/slices/projectsSlice";
+import type { IProject } from "@/types/project";
 
 export const fetchProjects = createAsyncThunk(
   "projects/fetchProjects",
@@ -30,5 +36,26 @@ export const fetchProjectById = createAsyncThunk(
     } finally {
       dispatch(setLoading(false));
     }
+  }
+);
+
+export const createNewProject = createAsyncThunk(
+  "projects/createNewProject",
+  async (projectData: Omit<IProject, "id">, { dispatch }) => {
+    try {
+      dispatch(setLoading(true));
+      await createProject(projectData);
+      return await dispatch(fetchProjects()).unwrap();
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+export const removeProject = createAsyncThunk(
+  "projects/removeProject",
+  async (projectId: string, { dispatch }) => {
+    await deleteProject(projectId);
+    return await dispatch(fetchProjects()).unwrap();
   }
 );

@@ -35,7 +35,6 @@ export function makeServer(): Server<AppRegistry> {
       this.namespace = "api";
 
       this.get("/users", (schema) => {
-        console.log("Fetching all users");
         return schema.all("users");
       });
 
@@ -55,7 +54,7 @@ export function makeServer(): Server<AppRegistry> {
         if (project) {
           return project;
         } else {
-          return { error: "Project not found" };
+          throw new Error("Project not found");
         }
       });
 
@@ -66,13 +65,18 @@ export function makeServer(): Server<AppRegistry> {
           project.destroy();
           return { success: true };
         } else {
-          return { error: "Project not found" };
+          throw new Error("Project not found");
         }
       });
 
       this.post("/projects", (schema, request) => {
-        console.log(request.requestBody);
         const attrs = JSON.parse(request.requestBody);
+        const project = schema.findBy("projects", {
+          name: attrs.name,
+        } as Partial<IProject>);
+        if (project) {
+          throw new Error("Project with this name already exists");
+        }
         return schema.create("projects", attrs);
       });
 
@@ -87,7 +91,7 @@ export function makeServer(): Server<AppRegistry> {
           task?.update(JSON.parse(request.requestBody));
           return task;
         } else {
-          return { error: "Task not found" };
+          throw new Error("Task not found");
         }
       });
 
@@ -98,7 +102,7 @@ export function makeServer(): Server<AppRegistry> {
           task.destroy();
           return { success: true };
         } else {
-          return { error: "Task not found" };
+          throw new Error("Task not found");
         }
       });
     },
