@@ -15,10 +15,10 @@ export const getProjects = async () => {
 
 export const getProject = async (projectId: string) => {
   try {
-    const response = await apiClient.get<null, { projects: IProject }>(
+    const response = await apiClient.get<null, { project: IProject }>(
       `/projects/${projectId}`
     );
-    return response.projects;
+    return response.project;
   } catch (error) {
     console.error("Error fetching project:", error);
     throw error;

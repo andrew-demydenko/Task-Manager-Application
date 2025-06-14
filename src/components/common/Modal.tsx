@@ -26,7 +26,7 @@ export default function Modal({
           <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
             <h3 className="text-2xl font-semibold">{title}</h3>
             <button
-              className="p-1 ml-auto border-0 text-black text-3xl align-middle font-semibold"
+              className="p-1 cursor-pointer ml-auto border-0 text-black text-3xl align-middle font-semibold"
               onClick={onClose}
             >
               <span className="flex items-center text-black h-6 w-6 text-2xl">

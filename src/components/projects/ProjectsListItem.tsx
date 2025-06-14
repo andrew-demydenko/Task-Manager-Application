@@ -28,7 +28,7 @@ export default function ProjectsListItem({ project }: ProjectsListItemProps) {
   };
 
   return (
-    <div className="flex p-3 border border-gray-300 shadow-md card rounded justify-between items-center">
+    <div className="flex p-3 border border-gray-300 shadow-md mb-4 rounded justify-between items-center">
       <div>
         <div>
           Project name:
@@ -44,7 +44,7 @@ export default function ProjectsListItem({ project }: ProjectsListItemProps) {
       <button
         onClick={handleDelete}
         disabled={isDeleting}
-        className="cursor-pointer bg-red-500 text-white font-bold py-1 px-2 rounded text-sm"
+        className="cursor-pointer bg-red-500 text-white py-1 px-2 rounded text-sm"
       >
         {isDeleting ? "Deleting..." : "Delete"}
       </button>

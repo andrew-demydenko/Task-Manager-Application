@@ -6,6 +6,7 @@ export interface ITask {
   description: string;
   status: "pending" | "in-progress" | "completed";
   priority: "low" | "medium" | "high";
-  project: IProject;
+  project?: IProject;
+  projectId: string;
   dueDate: string;
 }
