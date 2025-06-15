@@ -19,7 +19,7 @@ makeServer();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename="/Task-Manager-Application">
         <AuthProvider>
           <Routes>
             <Route index element={<HomePage />} />
