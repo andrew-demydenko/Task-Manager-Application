@@ -38,7 +38,7 @@ jobs:
       - name: Fix routes
         run: |
           cp dist/index.html dist/404.html
-          echo '/Task-Manager-Application/* /Task-Manager-Application/index.html 200' > build/_redirects
+          echo '/Task-Manager-Application/* /Task-Manager-Application/index.html 200' > dist/_redirects
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
