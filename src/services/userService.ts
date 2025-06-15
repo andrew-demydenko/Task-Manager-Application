@@ -1,24 +1,18 @@
 import apiClient from "./apiClient";
 import type { IUser } from "@/types";
 
-export const getUser = async (userName: string) => {
+const getCurrentUser = async () => {
   try {
-    const response = await apiClient.get<null, { users: IUser }>(
-      `/users/${userName}`
+    const response = await apiClient.get<null, { user: IUser }>(
+      "/current-user"
     );
-    return response.users;
+    return response.user;
   } catch (error) {
-    console.error("Error fetching user:", error);
-    throw error;
+    console.error("Error while fetching user:", error);
+    return null;
   }
 };
 
-export const getUsers = async () => {
-  try {
-    const response = await apiClient.get<null, { users: IUser[] }>(`/users`);
-    return response.users;
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    throw error;
-  }
+export const userService = {
+  getCurrentUser,
 };

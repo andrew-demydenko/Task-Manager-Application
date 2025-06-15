@@ -1,25 +1,31 @@
+import { useAuth } from "@/providers/AuthProvider";
 import { useEffect } from "react";
-import { getUser } from "@/services/userService";
-import { NavLink } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function HomePage() {
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getUser("admin");
-      console.log("User fetched:", user);
-    };
+  const { isAuthenticated, login } = useAuth();
+  const navigate = useNavigate();
 
-    fetchUser();
-  }, []);
+  const handleLogin = () => {
+    login("fake_token");
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/projects");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
-    <div>
-      Home Page
-      <div>
-        <NavLink className="text-blue-500 hover:underline" to="/projects">
-          Projects
-        </NavLink>
-      </div>
+    <div className="container h-screen mx-auto p-4 flex flex-col items-center justify-center">
+      <h1 className="text-3xl font-bold mb-6">Task Manager</h1>
+
+      <button
+        onClick={handleLogin}
+        className="cursor-pointer bg-blue-500 text-white py-2 px-4 rounded"
+      >
+        Authorization
+      </button>
     </div>
   );
 }

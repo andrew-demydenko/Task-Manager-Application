@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { fetchProjectById } from "@/store/thunks/projectThunks";
 import { fetchTasks } from "@/store/thunks/taskThunks";
@@ -59,12 +59,20 @@ export default function ProjectDetailsPage() {
             Due Date: {new Date(projectDetails.dueDate).toLocaleDateString()}
           </p>
         </div>
-        <button
-          onClick={handleOpenTaskModal}
-          className="cursor-pointer bg-blue-500 uppercase text-white py-2 px-4 rounded"
-        >
-          Add Task
-        </button>
+        <div>
+          <Link
+            to="/projects"
+            className="mr-5 text-blue-500 hover:underline font-medium uppercase"
+          >
+            Projects
+          </Link>
+          <button
+            onClick={handleOpenTaskModal}
+            className="cursor-pointer bg-blue-500 uppercase text-white py-2 px-4 rounded"
+          >
+            Add Task
+          </button>
+        </div>
       </div>
 
       <div className="mt-8">

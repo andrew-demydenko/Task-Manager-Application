@@ -154,6 +154,20 @@ export function makeServer(): Server<AppRegistry> {
           throw new Error("Task not found");
         }
       });
+
+      this.get("/current-user", (schema, request) => {
+        const authHeader = request.requestHeaders.Authorization;
+
+        if (authHeader && authHeader.startsWith("Bearer ")) {
+          const token = authHeader.substring(7);
+
+          if (token) {
+            return { user: { id: "1", name: "admin" } };
+          }
+        }
+
+        throw new Error("Unauthorized");
+      });
     },
   });
 
