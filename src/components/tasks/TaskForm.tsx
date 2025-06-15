@@ -8,6 +8,7 @@ import {
 import DatePicker from "react-datepicker";
 import type { IProject } from "@/types/project";
 import type { ITask } from "@/types/task";
+import { TASK_STATUSES, TASK_PRIORITIES } from "@/constants/task";
 
 interface TaskFormProps {
   onClose: () => void;
@@ -196,9 +197,11 @@ export default function TaskForm({ onClose, project, task }: TaskFormProps) {
             }
             className="border-gray-300 border rounded w-full py-2 px-3 mt-2"
           >
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
+            {Object.entries(TASK_PRIORITIES).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -216,9 +219,11 @@ export default function TaskForm({ onClose, project, task }: TaskFormProps) {
             }
             className="border-gray-300 border rounded w-full py-2 px-3 mt-2"
           >
-            <option value="pending">Pending</option>
-            <option value="in-progress">In Progress</option>
-            <option value="completed">Completed</option>
+            {Object.entries(TASK_STATUSES).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </select>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { fetchProjectById } from "@/store/thunks/projectThunks";
 import { fetchTasks } from "@/store/thunks/taskThunks";
 import TaskList from "@/components/tasks/TaskList";
+import WithFilters from "@/components/tasks/WithFilters";
 import Modal from "@/components/common/Modal";
 import TaskForm from "@/components/tasks/TaskForm";
 import type { ITask } from "@/types/task";
@@ -13,9 +14,6 @@ export default function ProjectDetailsPage() {
   const dispatch = useAppDispatch();
   const { projectDetails, loading: projectLoading } = useAppSelector(
     (state) => state.projects
-  );
-  const { tasks, loading: tasksLoading } = useAppSelector(
-    (state) => state.tasks
   );
   const [isTaskFromModalOpen, setIsTaskFromModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
@@ -71,11 +69,11 @@ export default function ProjectDetailsPage() {
 
       <div className="mt-8">
         <h2 className="text-2xl font-semibold mb-4">Tasks</h2>
-        {tasksLoading ? (
-          <div>Loading tasks...</div>
-        ) : (
-          <TaskList tasks={tasks} onEditTask={handleOpenEditModal} />
-        )}
+        <WithFilters>
+          {({ filteredTasks }) => (
+            <TaskList tasks={filteredTasks} onEditTask={handleOpenEditModal} />
+          )}
+        </WithFilters>
       </div>
 
       <Modal

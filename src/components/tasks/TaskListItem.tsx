@@ -29,6 +29,18 @@ export default function TaskListItem({ task, onEdit }: TaskListItemProps) {
     }
   };
 
+  const priorityClass = {
+    low: "bg-green-500",
+    medium: "bg-yellow-500",
+    high: "bg-red-500",
+  };
+
+  const statusClass = {
+    pending: "bg-gray-300",
+    "in-progress": "bg-blue-300",
+    completed: "bg-green-300",
+  };
+
   return (
     <div className="p-4 border border-gray-300 rounded-lg shadow-md bg-white mb-4">
       <div className="flex justify-between items-start">
@@ -37,16 +49,12 @@ export default function TaskListItem({ task, onEdit }: TaskListItemProps) {
           <p className="text-gray-600 mb-3">{description}</p>
           <div className="flex space-x-2 mb-2">
             <span
-              className={
-                "px-2 py-1 rounded text-xs uppercase bg-blue-500 text-white font-medium"
-              }
+              className={`px-2 py-1 rounded text-xs uppercase bg-blue-500 text-white font-medium ${priorityClass[priority]}`}
             >
               {priority}
             </span>
             <span
-              className={
-                "px-2 py-1 rounded bg-amber-500 text-white text-xs font-medium"
-              }
+              className={`px-2 py-1 rounded bg-amber-500 text-white text-xs font-medium ${statusClass[status]}`}
             >
               {TASK_STATUSES[status]}
             </span>
