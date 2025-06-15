@@ -155,7 +155,7 @@ export function makeServer(): Server<AppRegistry> {
         }
       });
 
-      this.get("/current-user", (schema, request) => {
+      this.get("/current-user", (_, request) => {
         const authHeader = request.requestHeaders.Authorization;
 
         if (authHeader && authHeader.startsWith("Bearer ")) {
