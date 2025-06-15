@@ -35,6 +35,11 @@ jobs:
         env:
           BASE_URL: "/Task-Manager-Application/"
 
+      - name: Fix routes
+        run: |
+          cp build/index.html build/404.html
+          echo '/Task-Manager-Application/* /Task-Manager-Application/index.html 200' > build/_redirects
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
