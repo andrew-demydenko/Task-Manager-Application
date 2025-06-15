@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<script>
+  const segments = window.location.pathname.split("/");
+  const repoName = segments[1];
+  window.location.href = `/${repoName}/#${window.location.pathname.replace(
+    `/${repoName}`,
+    ""
+  )}`;
+</script>
