@@ -1,6 +1,8 @@
 # Task Manager Application
 Test project built with React, TypeScript, Redux Toolkit, and MirageJS for API mocking.
 
+### Built project [link](https://andrew-demydenko.github.io/Task-Manager-Application/)
+
 ## Features
 
 - CRUD operations for projects and tasks
