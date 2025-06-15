@@ -44,6 +44,7 @@ export default function CreateProjectForm({ onClose }: CreateProjectFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {error && <div className="text-red-400">{error}</div>}
       <div>
         <label
           className="block text-gray-700 text-sm font-bold mb-2"
@@ -59,7 +60,6 @@ export default function CreateProjectForm({ onClose }: CreateProjectFormProps) {
           className="border rounded w-full py-2 px-3 text-gray-700 border-gray-300"
           placeholder="Enter project name"
         />
-        {error && <div className="text-red-400 my-2">{error}</div>}
       </div>
 
       <div>

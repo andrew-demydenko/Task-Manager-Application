@@ -28,7 +28,7 @@ export default function ProjectsPage() {
         <h1 className="text-5xl">Projects</h1>
         <button
           onClick={handleOpenModal}
-          className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+          className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
         >
           Create Project
         </button>

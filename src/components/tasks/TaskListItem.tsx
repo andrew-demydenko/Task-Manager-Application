@@ -6,9 +6,10 @@ import { TASK_STATUSES } from "@/constants/task";
 
 interface TaskListItemProps {
   task: ITask;
+  onEdit: (task: ITask) => void;
 }
 
-export default function TaskListItem({ task }: TaskListItemProps) {
+export default function TaskListItem({ task, onEdit }: TaskListItemProps) {
   const { id, name, description, status, priority, dueDate } = task;
   const dispatch = useAppDispatch();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -54,13 +55,21 @@ export default function TaskListItem({ task }: TaskListItemProps) {
             Due: {new Date(dueDate).toLocaleDateString()}
           </p>
         </div>
-        <button
-          onClick={handleDelete}
-          disabled={isDeleting}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm"
-        >
-          {isDeleting ? "Deleting..." : "Delete"}
-        </button>
+        <div className="flex space-x-2">
+          <button
+            onClick={() => onEdit(task)}
+            className="cursor-pointer bg-blue-500 text-white py-1 px-3 rounded text-sm"
+          >
+            Edit
+          </button>
+          <button
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className="cursor-pointer bg-red-500 text-white py-1 px-3 rounded text-sm"
+          >
+            {isDeleting ? "Deleting..." : "Delete"}
+          </button>
+        </div>
       </div>
     </div>
   );

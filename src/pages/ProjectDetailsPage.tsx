@@ -5,7 +5,8 @@ import { fetchProjectById } from "@/store/thunks/projectThunks";
 import { fetchTasks } from "@/store/thunks/taskThunks";
 import TaskList from "@/components/tasks/TaskList";
 import Modal from "@/components/common/Modal";
-import CreateTaskForm from "@/components/tasks/CreateTaskForm";
+import TaskForm from "@/components/tasks/TaskForm";
+import type { ITask } from "@/types/task";
 
 export default function ProjectDetailsPage() {
   const { projectId } = useParams();
@@ -16,7 +17,8 @@ export default function ProjectDetailsPage() {
   const { tasks, loading: tasksLoading } = useAppSelector(
     (state) => state.tasks
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTaskFromModalOpen, setIsTaskFromModalOpen] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
 
   useEffect(() => {
     if (projectId) {
@@ -27,12 +29,19 @@ export default function ProjectDetailsPage() {
     }
   }, [dispatch, projectId]);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleOpenTaskModal = () => {
+    setTaskToEdit(null);
+    setIsTaskFromModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseTaskModal = () => {
+    setTaskToEdit(null);
+    setIsTaskFromModalOpen(false);
+  };
+
+  const handleOpenEditModal = (task: ITask) => {
+    setIsTaskFromModalOpen(true);
+    setTaskToEdit(task);
   };
 
   if (projectLoading) {
@@ -53,7 +62,7 @@ export default function ProjectDetailsPage() {
           </p>
         </div>
         <button
-          onClick={handleOpenModal}
+          onClick={handleOpenTaskModal}
           className="cursor-pointer bg-blue-500 uppercase text-white py-2 px-4 rounded"
         >
           Add Task
@@ -65,16 +74,20 @@ export default function ProjectDetailsPage() {
         {tasksLoading ? (
           <div>Loading tasks...</div>
         ) : (
-          <TaskList tasks={tasks} />
+          <TaskList tasks={tasks} onEditTask={handleOpenEditModal} />
         )}
       </div>
 
       <Modal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        title="Create New Task"
+        isOpen={isTaskFromModalOpen}
+        onClose={handleCloseTaskModal}
+        title={taskToEdit ? "Edit Task" : "Create New Task"}
       >
-        <CreateTaskForm onClose={handleCloseModal} project={projectDetails} />
+        <TaskForm
+          onClose={handleCloseTaskModal}
+          project={projectDetails}
+          task={taskToEdit}
+        />
       </Modal>
     </div>
   );
