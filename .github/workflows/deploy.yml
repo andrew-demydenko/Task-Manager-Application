@@ -33,6 +33,7 @@ jobs:
       - name: Build project
         run: yarn build
         env:
+          VITE_BASE_URL: '/Task-Manager-Application/'
           BASE_URL: "/Task-Manager-Application/"
 
       - name: Fix routes
