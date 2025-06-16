@@ -22,6 +22,19 @@ export default function CreateProjectForm({ onClose }: CreateProjectFormProps) {
       return;
     }
 
+    if (!dueDate) {
+      setError("Due date is required");
+      return;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (dueDate < today) {
+      setError("Due date cannot be earlier than today");
+      return;
+    }
+
     try {
       if (name && dueDate) {
         setIsPending(true);
@@ -75,6 +88,7 @@ export default function CreateProjectForm({ onClose }: CreateProjectFormProps) {
           onChange={(date) => setDueDate(date)}
           className="rounded w-full py-2 px-3 text-gray-700 border-1 border-gray-300"
           dateFormat="MMMM d, yyyy"
+          minDate={new Date()}
         />
       </div>
 

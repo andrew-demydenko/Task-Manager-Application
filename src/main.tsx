@@ -16,10 +16,11 @@ import { makeServer } from "./server";
 
 makeServer();
 
+console.log(import.meta.env);
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter basename="/Task-Manager-Application">
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <AuthProvider>
           <Routes>
             <Route index element={<HomePage />} />
